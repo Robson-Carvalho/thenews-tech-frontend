@@ -12,6 +12,8 @@ const App = () => {
         <Route index element={<Home />} />
 
         <Route path="unsubscribe/:email" element={<Unsubscribe />} />
+
+        <Route path="*" element={<Home />} />
       </Routes>
 
       <ToastContainer />

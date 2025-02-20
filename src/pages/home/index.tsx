@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import { Linkedin } from "lucide-react";
 
 import logo from "../../assets/logo.svg";
@@ -8,16 +8,30 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import { useReward } from "react-rewards";
 import { toast } from "react-toastify";
+import { API } from "@/services/integrations/api";
 
 const Home = () => {
+  const [email, setEmail] = useState<string>("");
   const { reward, isAnimating } = useReward("rewardId", "confetti");
-  const handleSubscriber = (e: FormEvent) => {
+  const handleSubscriber = async (e: FormEvent) => {
     e.preventDefault();
 
     try {
+      await API.post("/subscriber", {
+        email: email,
+      });
+
       reward();
       toast.success("Bem-vindo(a) ao The News Tech!");
-    } catch (error) {}
+    } catch (error: any) {
+      if (error.response.status === 409) {
+        toast.warning("E-mail já cadastrado!");
+      } else if (error.response.status === 400) {
+        toast.warning("E-mail inválido");
+      } else {
+        toast.error("Erro interno!");
+      }
+    }
   };
 
   return (
@@ -44,6 +58,8 @@ const Home = () => {
         >
           <Input
             type="email"
+            autoComplete="email"
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="Digite seu e-mail"
             className="px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white text-gray-700 placeholder-gray-400"
             required
@@ -53,7 +69,7 @@ const Home = () => {
             variant="default"
             type="submit"
             id="rewardId"
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-200 shadow-md hover:shadow-lg"
+            className="text-white font-semibold py-3 px-6 rounded-lg transition duration-200 shadow-md hover:shadow-lg"
           >
             Inscrever-se
           </Button>
