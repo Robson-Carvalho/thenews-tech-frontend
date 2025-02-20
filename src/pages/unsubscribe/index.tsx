@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 
 import logo from "../../assets/logo.svg";
 import { Button } from "@/components/ui/button";
