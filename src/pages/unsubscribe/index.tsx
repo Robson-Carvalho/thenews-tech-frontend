@@ -30,17 +30,17 @@ const Unsubscribe = () => {
   return (
     <Body>
       <div className="h-[100%] flex-grow flex flex-col justify-center items-center">
-        <div className="text-center mb-8">
+        <div className="text-center mb-8 max-w-[420px] w-full">
           <Logo />
           <p className="text-gray-600 text-lg">
-            Por favor, informe o e-mail que deseja remover <br /> da nossa lista
-            de distribuição de notícias.
+            Por favor, informe o e-mail que deseja remover da nossa lista de
+            distribuição de notícias.
           </p>
         </div>
 
         <form
           onSubmit={handleUnsubscribe}
-          className="flex flex-col space-y-4 w-[300px]  max-w-sm"
+          className="flex flex-col space-y-4 max-w-[320px] w-full"
         >
           <Input
             type="email"
