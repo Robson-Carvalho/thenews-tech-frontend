@@ -51,22 +51,22 @@ const Home = () => {
   return (
     <Body>
       <div className="h-[100%] flex-grow flex flex-col justify-center items-center">
-        <div className="text-center mb-8">
+        <div className="text-center mb-8 max-w-[420px]">
           <Logo />
           <p className="text-gray-600 text-lg">
-            Fique por dentro notícias sobre tecnologia. <br /> Todo dia às 8h da
-            manhã na sua caixa de e-mail.
+            Fique por dentro notícias sobre tecnologia. Todo dia às 8h da manhã
+            na sua caixa de e-mail.
           </p>
         </div>
 
         <p className="mb-4 text-gray-600 text-md">
-          Junte-se à nossa turma de{" "}
+          Junte-se à nossa comunidade de{" "}
           <span className="text-gray-900 font-semibold">{count} leitores</span>
         </p>
 
         <form
           onSubmit={handleSubscriber}
-          className="flex flex-col space-y-4 w-[300px] max-w-sm"
+          className="flex flex-col space-y-4 max-w-[320px] w-full"
         >
           <Input
             type="email"
