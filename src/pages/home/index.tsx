@@ -11,8 +11,6 @@ import {
 import { Logo } from "@/components/logo";
 import { Body } from "@/layouts/body";
 
-import AnimatedNumber from "react-animated-numbers";
-
 const Home = () => {
   const [email, setEmail] = useState<string>("");
   const [count, setCount] = useState<number>(0);
@@ -61,16 +59,9 @@ const Home = () => {
           </p>
         </div>
 
-        <p className="mb-4 text-gray-600 text-md flex flex-row gap-1">
+        <p className="mb-4 text-gray-600 text-md">
           Junte-se à nossa turma de{" "}
-          <span className="text-gray-900 font-semibold flex flex-row gap-1">
-            <AnimatedNumber
-              animateToNumber={count}
-              fontStyle={{ fontSize: "16px", fontWeight: "bold" }}
-            />
-
-            {count === 1 ? " leitor" : " leitores"}
-          </span>
+          <span className="text-gray-900 font-semibold">{count} leitores</span>
         </p>
 
         <form
