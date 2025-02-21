@@ -1,27 +1,43 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { FormEvent, useState } from "react";
-import { Linkedin } from "lucide-react";
-
-import logo from "../../assets/logo.svg";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { FormEvent, useEffect, useState } from "react";
 
 import { useReward } from "react-rewards";
 import { toast } from "react-toastify";
-import { API } from "@/services/integrations/api";
+import {
+  getSubscribersNumber,
+  subscribeEmail,
+} from "@/services/integrations/api";
+import { Logo } from "@/components/logo";
+import { Body } from "@/layouts/body";
+
+import AnimatedNumber from "react-animated-numbers";
 
 const Home = () => {
   const [email, setEmail] = useState<string>("");
+  const [count, setCount] = useState<number>(0);
   const { reward, isAnimating } = useReward("rewardId", "confetti");
+
+  useEffect(() => {
+    async function getQuantity() {
+      const data: number = await getSubscribersNumber();
+      if (Number(data)) {
+        setCount(data as number);
+      }
+    }
+    getQuantity();
+  });
+
   const handleSubscriber = async (e: FormEvent) => {
     e.preventDefault();
 
     try {
-      await API.post("/subscriber", {
-        email: email,
-      });
+      await subscribeEmail(email);
 
       reward();
+      reward();
+      reward();
+      setEmail("");
       toast.success("Bem-vindo(a) ao The News Tech!");
     } catch (error: any) {
       if (error.response.status === 409) {
@@ -35,30 +51,36 @@ const Home = () => {
   };
 
   return (
-    <div className="w-full h-[100vh] flex flex-col justify-between items-center bg-[#f0f4f8]">
-      <div className="px-6 flex flex-col justify-center items-center flex-grow">
+    <Body>
+      <div className="h-[100%] flex-grow flex flex-col justify-center items-center">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4 flex flex-row justify-center items-center gap-4">
-            The News Tech
-            <Avatar>
-              <AvatarImage src={logo} className="w-full" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-          </h1>
+          <Logo />
           <p className="text-gray-600 text-lg">
-            Fique por dentro das últimas novidades do mundo da tecnologia.{" "}
-            <br /> Todo dia às 8h da manhã receba as principais informações no
-            seu e-mail
+            Fique por dentro notícias sobre tecnologia. <br /> Todo dia às 8h da
+            manhã na sua caixa de e-mail.
           </p>
         </div>
 
+        <p className="mb-4 text-gray-600 text-md flex flex-row gap-1">
+          Junte-se à nossa turma de{" "}
+          <span className="text-gray-900 font-semibold flex flex-row gap-1">
+            <AnimatedNumber
+              animateToNumber={count}
+              fontStyle={{ fontSize: "16px", fontWeight: "bold" }}
+            />
+
+            {count === 1 ? " leitor" : " leitores"}
+          </span>
+        </p>
+
         <form
           onSubmit={handleSubscriber}
-          className="flex flex-col space-y-4 w-full max-w-sm"
+          className="flex flex-col space-y-4 w-[300px] max-w-sm"
         >
           <Input
             type="email"
             autoComplete="email"
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Digite seu e-mail"
             className="px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white text-gray-700 placeholder-gray-400"
@@ -67,26 +89,15 @@ const Home = () => {
           <Button
             disabled={isAnimating}
             variant="default"
-            type="submit"
             id="rewardId"
-            className="text-white font-semibold py-3 px-6 rounded-lg transition duration-200 shadow-md hover:shadow-lg"
+            type="submit"
+            className="text-white font-semibold py-6 rounded-lg transition duration-200 shadow-md hover:shadow-lg"
           >
-            Inscrever-se
+            Inscrever-se (Grátis)
           </Button>
         </form>
       </div>
-
-      <footer className="py-4 flex flex-row justify-center gap-2 bg-slate-200 w-full">
-        <a
-          href="https://www.linkedin.com/in/robson-carvalho-souza/"
-          target="_blank"
-          className="cursor-pointer flex flex-row justify-center items-start gap-2 hover:text-blue-500 transition duration-200"
-        >
-          <Linkedin size={20} />
-          Developed by Robson Carvalho.
-        </a>
-      </footer>
-    </div>
+    </Body>
   );
 };
 
