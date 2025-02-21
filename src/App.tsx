@@ -11,7 +11,7 @@ const App = () => {
       <Routes>
         <Route index element={<Home />} />
 
-        <Route path="unsubscribe/:email" element={<Unsubscribe />} />
+        <Route path="unsubscribe" element={<Unsubscribe />} />
 
         <Route path="*" element={<Home />} />
       </Routes>
