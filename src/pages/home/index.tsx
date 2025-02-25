@@ -54,8 +54,8 @@ const Home = () => {
         <div className="text-center mb-8 max-w-[420px]">
           <Logo />
           <p className="text-gray-600 text-lg">
-            Fique por dentro notícias sobre tecnologia. Todo dia às 8h da manhã
-            na sua caixa de e-mail.
+            Fique por dentro notícias sobre tecnologia. Todo dia às 13h30 na sua
+            caixa de e-mail.
           </p>
         </div>
 
